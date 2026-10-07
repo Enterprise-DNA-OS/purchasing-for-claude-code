@@ -1,11 +1,48 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "purchase-order",
+    "title": "DRAFT purchase order",
+    "for_each": "select id,reference from orders where status in ('approved','closed') order by reference",
+    "file": "reference",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Order details",
+        "sql": "select reference,title,supplier,currency,ordered_on,due_on,ordered_value from order_position where id=$1",
+        "note": "Net amounts only. Add applicable tax and verify delivery details before issuing. This file has not been sent."
+      },
+      {
+        "title": "Items",
+        "sql": "select line_ref,description,quantity,unit_price,ordered_value from line_position where order_id=$1 order by line_ref"
+      }
+    ]
+  },
+  {
+    "name": "receipt-register",
+    "title": "Goods receipt record",
+    "for_each": "select id,reference from orders order by reference",
+    "file": "reference",
+    "sections": [
+      {
+        "title": "Recorded receipts",
+        "sql": "select r.reference,l.description,r.quantity,r.received_on,r.evidence_ref from receipts r join order_lines l on l.id=r.line_id where l.order_id=$1 order by r.received_on,r.reference"
+      }
+    ]
+  },
+  {
+    "name": "matching-report",
+    "title": "DRAFT invoice matching report",
+    "for_each": "select id,reference from orders order by reference",
+    "file": "reference",
+    "sections": [
+      {
+        "title": "Match position",
+        "sql": "select description,currency,quantity,received,invoiced,unit_price,invoice_value,price_variance,invoice_ahead_of_receipt from line_position where order_id=$1 order by line_ref",
+        "note": "A recorded match is not payment authorisation. Source documents, tax and supplier details need review."
+      },
+      {
+        "title": "Evidence and retention",
+        "sql": "select i.reference,i.evidence_ref,i.tax_year_end,i.retain_until from invoices i join order_lines l on l.id=i.line_id where l.order_id=$1 order by i.reference"
+      }
     ]
   }
 ]

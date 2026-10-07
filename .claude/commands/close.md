@@ -1,15 +1,15 @@
 ---
-description: "Compliance for the purchasing records"
+description: "Close for the purchasing records"
 ---
 
-# /compliance
+# /close
 
 Read CLAUDE.md, then run:
 
 ```bash
-node scripts/purchasing.mjs compliance 
+node scripts/purchasing.mjs close --order=PO-2001 --actor="Reviewer"
 ```
 
-Read docs/compliance.md. Separate Inland Revenue evidence requirements from internal policy. Report missing records without certifying legal compliance.
+Close only fully received orders whose invoiced quantities and unit prices match. Closed orders retain their budget commitment.
 
 Use --json for structured results. Partial IDs and case-insensitive record names work. If ambiguous, show the listed candidates and ask which one. Keep currency labels. Never invent source evidence, send a message or make a payment. See docs/cli.md for argument rules.

@@ -1,115 +1,76 @@
-<h1 align="center">Purchasing for Claude Code</h1>
+# Purchasing for Claude Code
 
-<p align="center">
-  <strong>The open-source purchasing system that is just a database and Claude Code.</strong>
-</p>
+Your purchase orders, receipts, invoice differences and budget commitments in a database you own. Free MIT-licensed software for purchasing administrators. Works with Claude Code, Codex, OpenCode or Cursor.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free. Clone, try the demo and import purchasing records. | Your fields, approval rules, Precoro data, web front end or different stack. | Installed, connected and operated through Omni by Enterprise DNA. One setup fee, then a retainer. |
+| [Quick start](#quick-start) | [Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=precoro&utm_source=github&utm_medium=customise) | [Book a call](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=precoro&utm_source=github&utm_medium=managed) |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your Precoro data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=precoro">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/precoro?utm_source=github&utm_medium=readme&utm_campaign=precoro">How it works</a></td>
-  </tr>
-</table>
+## What the purchasing team does each week
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-precoro">Instead of Precoro</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Purchasing for Claude Code does the job you pay Precoro for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the Precoro dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays Precoro per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=precoro).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+Review approvals, chase late deliveries, match invoice lines, check budget headroom and collect missing evidence. The fictional Harbour Supply Co demo includes partially received cartons, an invoice with a different unit price, an overdue supplier review, missing receipt evidence and a draft approval. NZD and AUD budgets remain separate. Seed dates move with the first demo run; reseeding does not reset records.
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20 or later, on Windows or Linux:
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/purchasing-for-claude-code.git
 cd purchasing-for-claude-code
 npm install
 npm run demo
+npm test
+npm run view
+npm run docs
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+PGlite stores records in .data/db with no server install. DATABASE_URL selects shared Postgres with verified TLS. Use a new DATA_DIR and npm run migrate without seed for real imports. Never mix sample records with purchasing records. Local operation uses one process; shared operation needs user authentication, role controls, restricted database access and tested backups. Names recorded as actors are not authenticated identities.
 
-### Use it with your own Postgres or Supabase
+## 34 CLI commands and 35 slash recipes
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+/suppliers, /budgets, /orders, /lines, /approvals-due, /deliveries-due, /match-invoices, /budget-review, /supplier-review, /attention, /compliance, /activity, /invoices, /receipts, /order, /weekly-review, /add-supplier, /set-supplier, /assign-budget, /evidence, /add-budget, /add-order, /add-line, /update-line, /approve, /close, /cancel, /receive, /invoice, /log, /draft-chase, /import, /export, /customise and /new-view. The CLI also includes help. See [the command guide](docs/cli.md) for arguments and calculations. Human output is the default; --json is available for every command. Partial IDs and case-insensitive names work, with an error and candidate list when ambiguous.
 
-## The commands
+## Ten questions beyond a fixed dashboard
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+Precoro also offers custom reports. These are working questions this free version answers today, with queries you can change to fit your process. They are not claims about what Precoro cannot report.
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+- Which orders combine late deliveries and invoice differences? `attention`
+- How much budget remains after approved orders, by currency? `budget-review`
+- Which draft requests would consume that remaining budget? `approvals-due`
+- Which suppliers have overdue reviews and open commitments? `supplier-review`
+- Which invoice quantities run ahead of goods received? `match-invoices`
+- Which invoice unit prices differ from the agreed order price? `match-invoices`
+- What is due this week after partial receipts? `deliveries-due`
+- Which invoices lack a reference to the original evidence? `compliance`
+- Who recorded each action on an order, and what did they note? `order --order=PO-1001`
+- Which open orders have gone quiet for fourteen days? `attention`
 
-## Instead of precoro
+## Your first hour: ten things to ask for
 
-<!-- TODO(author): how to bring data across from Precoro; link docs/replace-precoro.md -->
+1. Put our business name, logo and colours on the purchasing paperwork.
+2. Show the approval queue with delivery deadlines.
+3. Show late items after partial receipts.
+4. Compare invoice prices with order prices.
+5. Separate NZD and AUD budget commitments.
+6. Draft a supplier delivery chaser from the order history.
+7. Test an import of our Precoro purchase-order report.
+8. Map imported orders to our actual budget periods.
+9. Add our cost centre field through a new migration.
+10. Create a read-only view for the Monday purchasing meeting.
 
-## Architecture
+## Paperwork and controls
 
-```
-purchasing-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
+Change brand.json once. npm run docs produces draft purchase orders, goods receipt records and invoice matching reports as branded HTML. npm run view produces weekly and exception snapshots. Files stay on your machine; nothing sends or pays. Protect rendered files as operational data.
 
-## Built for coding agents
+[Compliance checks](docs/compliance.md) cite Inland Revenue and distinguish evidence retention from internal approval policies. The base does not calculate tax, issue compliant tax invoices, authenticate an approver or inspect source documents. [Why no front end](docs/why-no-front-end.md) covers mobile receiving, staff self-service and accounting connections.
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+[Move from Precoro](docs/replace-precoro.md): one command imports supported purchase-order report rows from XLSX or CSV with explicit column mapping. An identical repeat creates no duplicates; changed source rows require review. Approvals, receipts, invoices, attachments and payments do not arrive through the purchase-order import. Review their separate migration before switching.
 
-## Contributing
+## Verification
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+npm test uses a temporary database and exercises all 34 commands, seed idempotence, budget and approval controls, partial receipts, invoice matching, evidence retention, repeat imports, rollback, CSV and XLSX, escaped HTML, drafts and exports. TEST_DATABASE_URL enables the same suite against an empty disposable Postgres database. CI covers Windows, Linux and Postgres. Never point tests at a populated database.
 
-## Want it installed and run for you?
+The spreadsheet dependency overrides uuid to the compatible patched 11.x line; XLSX read and write are covered in the suite. [Research and scoring](docs/research.md) records pricing evidence and the limits of buyer research.
 
-Enterprise DNA installs Purchasing for Claude Code for your business, migrates your Precoro data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
-
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=precoro)
-- Read more: [enterprisedna.co/omni/instead-of/precoro](https://enterprisedna.co/omni/instead-of/precoro?utm_source=github&utm_medium=readme&utm_campaign=precoro)
-
-## License
-
-MIT. Copyright (c) 2026 Enterprise DNA.
+MIT licence. Not affiliated with Precoro or Anthropic. Hosting and agent usage have separate costs. [Book 30 minutes with Sam](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=precoro&utm_source=github&utm_medium=readme).

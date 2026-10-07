@@ -1,43 +1,57 @@
 # Purchasing for Claude Code: operating instructions
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+This is the purchasing administrator's database. The demo business is fictional Harbour Supply Co. Replace its name and branding before real operation. Use Claude Code, Codex, OpenCode or Cursor through the same commands.
 
-## Who this is for
+## Rules
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
+Read current data before answering. Read the full order before recording any change. Names and actors come from the operator, never inference. The actor field is not authentication. Nothing sends, orders from a supplier, pays, deletes records or calculates tax. All amounts are net and currencies stay separate. Imported records start as drafts; original approval text is evidence for review. Read docs/compliance.md before discussing compliance and docs/replace-precoro.md before importing.
 
-Fill this in once. A worker with context knows. A worker without it guesses.
+Local PGlite allows one process at a time. For a shared Postgres installation use verified TLS, restricted credentials, authenticated users and tested backups. A business can supply credentials through its environment; do not print them. The seven-year retention default is NZ-oriented and must be reviewed for other jurisdictions.
 
-## How to work
+## One path for each recurring job
 
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
-
-## Routing table: one right way for each recurring job
-
-| When the operator asks for... | Use this |
+| Job | Recipe |
 |---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+| suppliers | /suppliers |
+| budgets | /budgets |
+| orders | /orders |
+| lines | /lines |
+| approvals due | /approvals-due |
+| deliveries due | /deliveries-due |
+| match invoices | /match-invoices |
+| budget review | /budget-review |
+| supplier review | /supplier-review |
+| attention | /attention |
+| compliance | /compliance |
+| activity | /activity |
+| invoices | /invoices |
+| receipts | /receipts |
+| order | /order |
+| weekly review | /weekly-review |
+| add supplier | /add-supplier |
+| set supplier | /set-supplier |
+| assign budget | /assign-budget |
+| evidence | /evidence |
+| add budget | /add-budget |
+| add order | /add-order |
+| add line | /add-line |
+| update line | /update-line |
+| approve | /approve |
+| close | /close |
+| cancel | /cancel |
+| receive | /receive |
+| invoice | /invoice |
+| log | /log |
+| draft chase | /draft-chase |
+| import | /import |
+| export | /export |
+| Change fields or rules | /customise |
+| Add a read-only dashboard | /new-view |
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+CLI: node scripts/purchasing.mjs help. Output is human-readable by default; add --json for structured results. Ambiguous matches list candidates and exit 1. Errors do not authorise an alternative record change.
 
-## Hard rules
+## Files
 
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
+scripts/purchasing.mjs is the single CLI. Migrations and seed are in supabase/. Recurring instructions live only in .claude/commands/. brand.json controls paperwork. views.json and documents.json contain read-only queries. Draft chasers go to drafts/ and exports to exports/. Both contain private operational data; neither is committed.
 
-## Where things live
-
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off Precoro.
-
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/precoro
+Omni by Enterprise DNA can install, customise and run this system. https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=precoro&utm_source=github&utm_medium=instructions

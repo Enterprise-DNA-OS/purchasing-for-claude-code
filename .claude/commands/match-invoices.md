@@ -1,15 +1,15 @@
 ---
-description: "Compliance for the purchasing records"
+description: "Match invoices for the purchasing records"
 ---
 
-# /compliance
+# /match-invoices
 
 Read CLAUDE.md, then run:
 
 ```bash
-node scripts/purchasing.mjs compliance 
+node scripts/purchasing.mjs match-invoices 
 ```
 
-Read docs/compliance.md. Separate Inland Revenue evidence requirements from internal policy. Report missing records without certifying legal compliance.
+Explain unit-price differences and invoicing ahead of receipts. All amounts are net. A clean match is not permission to pay.
 
 Use --json for structured results. Partial IDs and case-insensitive record names work. If ambiguous, show the listed candidates and ask which one. Keep currency labels. Never invent source evidence, send a message or make a payment. See docs/cli.md for argument rules.

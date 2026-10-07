@@ -1,15 +1,15 @@
 ---
-description: "Compliance for the purchasing records"
+description: "Export for the purchasing records"
 ---
 
-# /compliance
+# /export
 
 Read CLAUDE.md, then run:
 
 ```bash
-node scripts/purchasing.mjs compliance 
+node scripts/purchasing.mjs export --out=/path/new-backup.json
 ```
 
-Read docs/compliance.md. Separate Inland Revenue evidence requirements from internal policy. Report missing records without certifying legal compliance.
+Write a new backup path. Existing files are never overwritten. Protect supplier and employee information. This is not a restore command.
 
 Use --json for structured results. Partial IDs and case-insensitive record names work. If ambiguous, show the listed candidates and ask which one. Keep currency labels. Never invent source evidence, send a message or make a payment. See docs/cli.md for argument rules.
